@@ -1,21 +1,10 @@
-provider "aws" {
-  region = "ap-northeast-2"
-}
-
-data "aws_internet_gateway" "default" {
-  filter {
-    name = "attachment.vpc-id"
-    values = [var.vpc_id]
-  }
-}
-
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support = true
 
   tags = {
-    Name = "${var.project-name}-vpc"
+    Name = "${var.project_name}-vpc"
   }
 }
 
@@ -32,13 +21,13 @@ resource "aws_subnet" "public" {
 
   vpc_id = aws_vpc.main.id
   cidr_block = var.public_subnet_cidrs[count.index]
-  avaiability_zone = var.avaiability_zones[count.index]
+  availability_zone = var.availability_zones[count.index]
   map_public_ip_on_launch = true
   
   tags = {
-    Name = "${var.project_name}-public-${var.avaiability_zones[count.index]}"
+    Name = "${var.project_name}-public-${var.availability_zones[count.index]}"
     "kubernetes.io/role/elb" = "1"
-    "kubernetes.io/cluster/${var.cluster_name} = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
   }
 }
 
@@ -118,3 +107,11 @@ resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
 }
+
+
+# vpc = 아파트 단지
+# subnet = 아파트 동
+# public_subnet = 상가동
+# private_subnet = 아파트 동
+# internet gateway = 아파트 정문
+# nat gateway = 일방통행 비상구 / 외부에서 들어오는 차단, 내부에서 나가는 통로
