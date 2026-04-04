@@ -114,4 +114,7 @@ resource "aws_route_table_association" "private" {
 # public_subnet = 상가동
 # private_subnet = 아파트 동
 # internet gateway = 아파트 정문
-# nat gateway = 일방통행 비상구 / 외부에서 들어오는 차단, 내부에서 나가는 통로
+# nat gateway = 일방통행 비상구 / 외부에서 들어오는 차단, 내부에서 나가는 통로 (network address translation gateway) / 내부 네트워크의 ip 주소를 외부와 통신가능한 주소로 변환해주는 문
+# kubectl run nginx --image=nginx  => eks 클러스터 안에 nginx 웹서버 컨테이너를 1개 띄우는 것
+# kubectl exec nginx -- curl -s ifconfig.me => nginx Pod 안에 들어가서 명령어 실행 / private subnet에 있기 때문에 nat gateway를 통해 외부와 통신
+# elb는 ec2에 생성이 된다 / vpc의 퍼블릭 서브넷들을 가르킴
