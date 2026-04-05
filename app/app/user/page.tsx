@@ -17,6 +17,7 @@ export default function Page() {
  
   return (
     <ul>
+      hihi
       {data?.name}
     </ul>
   )
