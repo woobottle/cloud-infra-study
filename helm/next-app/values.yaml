@@ -27,3 +27,8 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 name: next-app
+
+# kubectl은 가구를 하나씩 옮기는 것 / kubectl apply -f development.yaml로 배포는 할 수 있음
+# helm은 이사 패키지 / deployment, service등 여러 yaml을 통해 배포 가능
+# values.yaml 하나로 환경별(dev/prod) 설정 변경
+# 버전 관리 & 롤백 (helm rollback)

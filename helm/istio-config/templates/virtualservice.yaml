@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: next-app-virtualservice
+  namespace: default
+spec:
+  # 어떤 도메인의 트래픽을 라우팅할지
+  hosts:
+  - "*"
+  # 어떤 gateway에서 온 트래픽인지
+  gateways:
+  - default/next-app-gateway
+  # 어떤 서비스의 몇 번 포트로 보낼지
+  http:
+  - route:
+    - destination:
+        host: next-app 
+        port:
+          number: 3000
