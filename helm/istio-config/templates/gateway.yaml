@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: next-app-gateway
+  namespace: default
+spec:
+  # 어떤 gateway pod이 처리할지
+  selector:
+    istio: ingress
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    # 어떤 도메인의 요청을 받을지
+    hosts:
+    - "*"
