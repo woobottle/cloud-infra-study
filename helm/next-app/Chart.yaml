@@ -23,3 +23,6 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "0.1.0"
+
+# 빠른 롤백이 가능하다 / 롤백을 하려면 version을 바꿔야 한다
+# argo cd랑 관리 하면 
