@@ -3,7 +3,7 @@ name: CI - Build and Push to ECR
 
 on:
   push:
-    branches: [main]
+    branches: [step6/gitops]
     paths:
       - "app/**"
 
