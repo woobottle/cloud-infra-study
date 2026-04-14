@@ -1,0 +1,37 @@
+# monitoring-values.yaml
+prometheus:
+  prometheusSpec:
+    # Istio sidecar 메트릭을 수집하기 위한 추가 scrape 설정
+    additionalScrapeConfigs:
+      - job_name: "istio-mesh"
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - istio-system
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: istiod;http-monitoring
+      - job_name: "envoy-stats"
+        metrics_path: /stats/prometheus
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            action: keep
+            regex: istio-proxy
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\\d+)?;(\\d+)
+            replacement: $1:15020
+            target_label: __address__
+
+grafana:
+  # admin 비밀번호 설정
+  adminPassword: "admin"
+  # 기본 데이터소스로 Prometheus 자동 연결
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
