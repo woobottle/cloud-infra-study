@@ -1,0 +1,18 @@
+meshConfig:
+  extensionProviders:
+    - name: "envoy-auth"
+      envoyExtAuthzHttp:
+        # envoy-auth Pod의 k8s 서비스 주소
+        service: "envoy-auth.default.svc.cluster.local"
+        port: 3001
+        # 원본 요청에서 인증 서비스로 전달할 헤더
+        includeRequestHeadersInCheck:
+          - "authorization"
+          - "cookie"
+        # 인증 성공 시, 인증 서비스의 응답 헤더 중 앱으로 전달할 헤더
+        headersToUpstreamOnAllow:
+          - "x-user-id"
+        # 인증 실패 시, 클라이언트에게 전달할 응답 헤더
+        headersToDownstreamOnDeny:
+          - "content-type"
+          - "set-cookie"

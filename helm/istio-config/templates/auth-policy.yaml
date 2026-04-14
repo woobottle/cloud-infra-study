@@ -1,0 +1,17 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ext-authz
+  namespace: default
+spec:
+  action: CUSTOM
+  provider:
+    name: "envoy-auth" 
+  rules:
+    - to:
+        - operation:
+            # /api/*, /user* 경로로 들어오는 요청은 envoy-auth provider를 거쳐야 한다.
+            paths:
+              - "/api/*"
+              - "/user*"
+    
